@@ -1,0 +1,1 @@
+# golangApp_docker_ks8
