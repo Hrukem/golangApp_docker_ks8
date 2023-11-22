@@ -22,3 +22,5 @@ go.work
 Makefile
 /.idea
 advent
+!kubernetes/advent
+tmp.yaml
