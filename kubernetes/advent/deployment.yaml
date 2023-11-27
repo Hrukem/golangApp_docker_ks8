@@ -1,0 +1,45 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  #name: {{ .ServiceName }}
+  name: advent
+  labels:
+    #app: {{ .ServiceName }}
+    app: advent
+spec:
+  replicas: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 50%
+      maxSurge: 1
+  template:
+    metadata:
+      labels:
+        #app: {{ .ServiceName }}
+        app: advent
+    spec:
+      containers:
+        #- name: {{ .ServiceName }}
+        - name: advent
+          #image: advent/{{ .ServiceName }}:{{ .Release }}
+          image: advent/advent:0.0.1
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8000
+          livenessProbe:
+            httpGet:
+              path: /healthz
+              port: 8000
+          readinessProbe:
+            httpGet:
+              path: /readyz
+              port: 8000
+          resources:
+            limits:
+              cpu: 10m
+              memory: 30Mi
+            requests:
+              cpu: 10m
+              memory: 30Mi
+      terminationGracePeriodSeconds: 30
